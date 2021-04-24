@@ -12,7 +12,7 @@ function Categories({items}) {
                 <li
                 className={activeItem === null ? 'active' : ''}
                 onClick={()=> onSelectItem(null)}>Все</li>
-                {items.map((name, index) => (
+                {items && items.map((name, index) => (
                 <li 
                  className={activeItem === index ? 'active' : ''}
                  onClick={()=> onSelectItem(index)} 
