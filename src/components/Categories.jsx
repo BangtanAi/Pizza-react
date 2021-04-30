@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-function Categories({items}) {
+const Categories = React.memo(function Categories({items, onClickCategory}) {
     const[activeItem, setActiveItem] = React.useState(null);
 
     const onSelectItem = (index) => {
@@ -15,13 +15,15 @@ function Categories({items}) {
                 {items && items.map((name, index) => (
                 <li 
                  className={activeItem === index ? 'active' : ''}
-                 onClick={()=> onSelectItem(index)} 
+                 onClick={()=> onClickCategory(index)} 
                  key={`${name}_${index}`}>
                  {name}
                  </li>))}
               </ul>
             </div>
     )
-}
+})
+
+
 
 export default Categories
