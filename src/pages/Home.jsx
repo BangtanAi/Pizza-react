@@ -1,11 +1,11 @@
 import React from 'react';
-import PizzaBlock from '../components/PizzaBlock';
+import PizzaBlock from '../components/PizzaBlock/index';
 import Categories from './../components/Categories';
 import SortPopup from './../components/SortPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory } from '../redux/actions/filters';
 import { fetchPizzas } from '../redux/actions/pizzas';
-
+import PizzaLoadingBlock from '../components/PizzaBlock/PizzaLoadingBlock';
 
 const categoryNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
@@ -17,25 +17,31 @@ const sortItems = [
 function Home() {
   const dispatch = useDispatch();
   const items = useSelector(({ pizzas }) => pizzas.items);
+  const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded);
+  const { category, sortBy } = useSelector(({ filters }) => filters);
 
-  React.useEffect(() => { 
+  React.useEffect(() => {
     dispatch(fetchPizzas());
- }, []);
+  }, [category]);
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index));
   }, []);
-  
+
   return (
-    <div> 
+    <div>
       <div className="container">
         <div className="content__top">
-          <Categories onClickItem={onSelectCategory} items={categoryNames} />
+          <Categories activeCategory={category} onClickCategory={onSelectCategory} items={categoryNames} />
           <SortPopup items={sortItems} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
-          {items && items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+          {isLoaded
+            ? items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+            : Array(12)
+                .fill(0)
+                .map((_, index) => <PizzaLoadingBlock key ={index} />)}
         </div>
       </div>
     </div>
