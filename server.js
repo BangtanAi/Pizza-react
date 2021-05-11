@@ -5,7 +5,7 @@ const middlewares = jsonServer.defaults({
   static: './build',
 });
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || null;
 
 server.use(middlewares);
 server.use(router);
