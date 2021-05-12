@@ -9,7 +9,7 @@ export const fetchPizzas = (sortBy, category) => (dispatch) => {
     dispatch(setLoaded(false));
     axios
     .get(
-      `http://localhost:3003/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${
+      `https://pizza-react-aidana.herokuapp.com/api/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${
         sortBy.type
       }&_order=${sortBy.order}`,
     )
